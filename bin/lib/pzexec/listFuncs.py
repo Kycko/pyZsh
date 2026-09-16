@@ -31,6 +31,11 @@ def filterEnds  (list:list,txt:str,lower=True,strip='l'):
   return final
 
 # проверка данных
+def inclStr  (list:list,txt:str,fullText=True,lower=True,strip=''):
+  # есть ли строка среди элементов списка
+  for item in list:
+    if SF.findSub(item,txt,'bool',fullText,lower,strip): return True
+  return False
 def getMaxLen(list:list,rmColors=True):
   if rmColors: list = cutColors(list)
   return max(map(len,list),default=0)

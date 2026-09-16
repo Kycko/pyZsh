@@ -6,6 +6,7 @@ import pzexec.stringFuncs as SF
 
 separator     = '-'*25
 cmdsAvailable = 'Доступные команды:'
+addOpt        = 'Добавьте одну из этих опций:'
 addPkg        = 'Добавьте имя пакета'
 ownHelp       =  SF.color('(есть HELP)','ylw',True)
 userCancel    = '\nОтменено пользователем'

@@ -30,6 +30,19 @@ files.update({
   'newPatch':dirs['work']['local']['patches']/'name.patch'
   })
 
+gitFiles = {'ignore':{'file' : '.gitignore',
+                      'lines':['*.asc',
+                               '*.gem',
+                               '*.tar.bz2',
+                               '*.tar.gz',
+                               '*.tar.lz',
+                               '*.tar.xz',
+                               '*.tgz',
+                               '*.rpm',
+                               '.directory']},
+            'readme':{'file' : 'README.md'   ,
+                      'lines':['[Стапель 8.0/7.3](ССЫЛКА)']}}
+
 ############## оформление вывода
 # максимальная длина сообщений, показывающих прогресс (шаги)
 maxStepLen = 23

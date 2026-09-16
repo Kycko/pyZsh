@@ -1,13 +1,15 @@
 # функции запуска и остановки программ
 
-from   pathlib  import Path
-from   sys      import exit as SYSEXIT
-from   tempfile import NamedTemporaryFile
-import pzexec.strings       as S
+from   pathlib    import Path
+from   subprocess import Popen
+from   sys        import exit as SYSEXIT
+from   tempfile   import NamedTemporaryFile
+import pzexec.strings         as S
 from   zshconf.runFuncs import *
 if not G.isArch: import pzexec.packages as PKG
 
 # запуск команд, аргументы
+def runWait(cmd:list): Popen(cmd).wait()
 def installRPMbuild():
   # сперва проверяет, установлен ли уже rpm-build
   if PKG.RPM(False).query('rpm-build') is None:
