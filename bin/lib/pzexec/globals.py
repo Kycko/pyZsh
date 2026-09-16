@@ -15,6 +15,9 @@ for dir in ['logs','patches']:
 for dir in ['RPMS','SOURCES','SPECS','SRPMS']:
   dirs['work']['rbuild'][dir.lower()] = dirs['work']['rbuild']['root']/dir
 
+#### репозитории
+dirs['repos']['local']['aurSrc'] = dirs['repos']['local']['root']/'aur/src'
+
 # BTRFS
 dirs['snaps'] = {'cur'   :Path('/mnt/@root'),
                  'broken':Path('/mnt/@root.broken'),
