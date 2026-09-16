@@ -1,0 +1,10 @@
+{
+  "basedpyright.analysis.extraPaths": [
+    "./bin/lib",
+    "./zshconf/python/lib"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./bin/lib",
+    "./zshconf/python/lib"
+  ]
+}
