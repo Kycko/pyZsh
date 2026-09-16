@@ -15,6 +15,7 @@ installRPMbuild = 'Установка rpm-build...'
 oneSpec   = f"В {G.dirs['work']['rbuild']['specs']} должен быть один spec-файл"
 noFile    = SF.color('Ошибка чтения файла','red',True)
 noMeldMSG = SF.color('Meld не установлен','red',False)
+samePkg   = SF.color('    ⸌----> тот же','ylw',False)
 
 cache = {'fresh':SF.color('свежий' ,'grn',False),
          'old'  :SF.color('устарел','red',True)}
@@ -26,7 +27,8 @@ progress = {
                      'provs':'собираем provides',
                      'wReq' :'кому пакет нужен?',
                      'check':'ищем пакет'},
-           'upd'   : 'получаем метаданные'}
+           'upd'   : 'получаем метаданные'},
+  'stages':{'whoRequires':'----- Каким пакетам нужен этот'}
   }
 
 tableHeaders = {
@@ -34,7 +36,8 @@ tableHeaders = {
   'deps':{'hard'    :SF.color('жёсткие зависимости','red',True),
           'soft'    :SF.color('мягкие зависимости' ,'grn',True),
           'deps'    :['зависимость','версия'],
-          'provides':['provide'    ,'версия']}
+          'provides':['provide'    ,'версия']},
+  'whoRequires':['какому пакету?','что требуется?','версия']
   }
 
 pkginfo = {'name'     :'Имя',

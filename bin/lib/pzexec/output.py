@@ -174,6 +174,31 @@ class Progress():
         sepLen = self.hardSoftDepHeader(hardsoft,len(deps))
         _output(deps,'deps',sepLen)
     if 'p' in type: _output(pkg.provides,'provides')
+  def whoRequires      (self,pkgs:list):
+    # pkgs = список[] объектов DNF/RPMpackage
+    final = []
+    for pkg in pkgs:
+      self.startStep(S.progress['steps']['pkg']['wReq'],pkg.initNum)
+      self.pkgDB.whoRequires(pkg)
+      count = len(pkg.whoRequires['hard'])+len(pkg.whoRequires['soft'])
+      if self.finishStepCount(count): final.append(pkg)
+    return final
+  def show_whoRequires (self,pkgs:list):
+    def _output(deps:dict,minLen=0):
+      if deps:  # без этого будет выводить пустые
+        final = []
+        for pkg,depList in deps.items():
+          for i,dep in enumerate(depList):
+            line = [S.samePkg if i else pkg]  # pkg = NEVRA
+            line .append(dep['name'])
+            line .append(f"{dep['sign']} {dep['ver']}")
+            final.append(line)
+        showTable(S.tableHeaders['whoRequires'],final,minLen)
+    for pkg in pkgs:
+      self.pkgStage(S.progress['stages']['whoRequires'],pkg.nevra)
+      for hardsoft,deps in pkg.whoRequires.items():
+        sepLen = self.hardSoftDepHeader(hardsoft,len(deps))
+        _output(deps,sepLen)
 
 def showTable(header:list,data:list,minLen=None):
   # цвета везде нужны разные, поэтому ЗДЕСЬ НИЧЕГО НЕ КРАСИМ

@@ -39,6 +39,34 @@ class DNF():
           final = next((p for p in pkgs if p.arch == self.api.conf.arch),final)
         # возвращаем ОДИН объект пакета
         return DNFpackage(final)
+  def whoRequires(self,pkgObj):
+    # вроде как фильтр 'requires=' ищет по всем связям
+    #   (Requires, Recommends, Suggests, Enhances, Supplements)
+    # далее разделяем found на жёсткие и мягкие,
+    #   отсекая ненужное (Suggests, Enhances, Supplements)
+    def _find(filtered,final:list):
+      for  pkg in filtered.latest():
+        if pkg.arch in (pkgObj.arch,'noarch'):
+          final.append(DNFpackage(pkg))
+    allProvides = [prov['name'] for prov in pkgObj.provides]
+    query = self.api.sack.query().available()
+    found = []
+    _find(query.filter(requires   = [pkgObj.api]),found)
+    _find(query.filter(recommends = [pkgObj.api]),found)
+
+    # финальная структура pkgObj.whoRequires[hard] (в soft так же):
+    # = {какому_пакету:[{name:какой_провайд_требуется,sign:,ver:},
+    #                   {name:какой_провайд_требуется,sign:,ver:},
+    #                   ...],
+    #    и т. д.}
+    pkgObj.whoRequires = {'hard':{},'soft':{}}
+    for fPkg in found:
+      fPkg.getDeps('r')
+      for key,deps in pkgObj.whoRequires.items():
+        for   dep  in fPkg.deps[key]:
+          if LF.inclStr(allProvides,dep['name'],lower=False):
+            if not fPkg.nevra in deps.keys(): deps[fPkg.nevra] = []
+            deps[fPkg.nevra].append(dep)
 class RPM():
   def __init__(self,onlyFile:bool):
     self.api      = rpm.TransactionSet()
