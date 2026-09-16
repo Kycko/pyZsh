@@ -8,7 +8,7 @@ import pzexec.globals     as G
 # чтобы не было путаницы с функцией color
 
 # поиск
-def findSub(string:str,sub:str,type='bool',fullText=False,lower=True,strip=''):
+def findSub     (string:str,sub :str ,type='bool',fullText=False,lower=True,strip=''):
   # type может быть 'index' или 'bool'
   # если fullText=True, проверяется равенство строк (но после .trim() + можно задать lower=True)
   # если lower   =True, все строки будут сравниваться через .toLowerCase()
@@ -22,6 +22,11 @@ def findSub(string:str,sub:str,type='bool',fullText=False,lower=True,strip=''):
     sub    = sub   .lower()
 
   return GF.getIB(type,string.find(sub))
+def checkSubList(string:str,subs:list,fullText=False,lower=True,strip=''):
+  # возвращает True, если найдёт ЛЮБОЙ элемент subs в string
+  for sub in subs:
+    if findSub(string,sub,'bool',fullText,lower,strip): return True
+  return False
 
 # преобразование
 def color       (string:str,colr:str,bold=False):

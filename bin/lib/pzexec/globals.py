@@ -9,9 +9,10 @@ dirs['work'].update({
   'local' :{'root':dirs['home']/'data/build'},
   'rbuild':{'root':dirs['home']/'rpmbuild'}
   })
-dirs['work']['local']['patches'] = dirs['work']['local'] ['root']/'patches'
 
-for dir in ['RPMS','SPECS']:
+for dir in ['logs','patches']:
+  dirs['work']['local'][dir] = dirs['work']['local']['root']/dir
+for dir in ['RPMS','SOURCES','SPECS','SRPMS']:
   dirs['work']['rbuild'][dir.lower()] = dirs['work']['rbuild']['root']/dir
 
 # BTRFS

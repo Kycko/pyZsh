@@ -21,6 +21,19 @@ def getSpec     ():
   # возвращает ТОЛЬКО если нашли РОВНО один spec-файл
   if len(final) == 1: return final[0]
   else              : print(S.oneSpec)
+def getPkg      (end:str):  # возвращает нужный пакет из ~/rpmbuild/SRPMS
+  # здесь не получается использовать LF и SF: циклический импорт
+  dir   = G.dirs['work']['rbuild']['srpms']
+  files = []
+  for  file in dir.iterdir():
+    # проверяем окончание '.src.rpm', поэтому не через file.suffix
+    if file.name.endswith(end): files.append(file)
+
+  if len(files) == 1: return files[0]
+  else:
+    cl  = G.colors['term']
+    msg = f"В {dir}{cl['red']}{cl['bld']} должен быть один пакет '{end}'{cl['rst']}"
+    print(msg)
 def getRPMs     (toStrings=False):
   # возвращает ВСЕ пакеты из ~/rpmbuild/RPMS
   final = []
