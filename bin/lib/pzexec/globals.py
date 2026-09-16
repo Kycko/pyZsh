@@ -10,7 +10,10 @@ dirs['work'].update({
   'rbuild':{'root':dirs['home']/'rpmbuild'}
   })
 dirs['work']['local']['patches'] = dirs['work']['local'] ['root']/'patches'
-dirs['work']['rbuild']['specs']  = dirs['work']['rbuild']['root']/'SPECS'
+
+for dir in ['RPMS','SPECS']:
+  dirs['work']['rbuild'][dir.lower()] = dirs['work']['rbuild']['root']/dir
+
 # BTRFS
 dirs['snaps'] = {'cur'   :Path('/mnt/@root'),
                  'broken':Path('/mnt/@root.broken'),
@@ -28,6 +31,9 @@ files.update({
   })
 
 ############## оформление вывода
+# максимальная длина сообщений, показывающих прогресс (шаги)
+maxStepLen = 23
+
 colors['term'] = {'blk':'\033[30m', # black
                   'red':'\033[31m', # red
                   'grn':'\033[32m', # green
@@ -41,7 +47,7 @@ colors['term'] = {'blk':'\033[30m', # black
                   'rst':'\033[0m'}  # reset all colors
 
 ########### программы
-for bin in ['btrfs','patch']: sysBins[bin] = which(bin)
+for bin in ['btrfs','meld','patch']: sysBins[bin] = which(bin)
 
 ############## прочее
 zshFlag = '--zsh-data'

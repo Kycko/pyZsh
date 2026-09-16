@@ -29,6 +29,11 @@ def rmBlanks (list:list):
   wcopy = deepcopy(list)
   while '' in wcopy: wcopy.remove('')
   return wcopy
+def rmDoubles(list:list):
+  final = []
+  for item in list:
+    if not item in final: final.append(item)
+  return final
 
 # защита от запуска модуля
 if __name__ == '__main__':

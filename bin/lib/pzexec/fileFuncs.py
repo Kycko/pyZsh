@@ -21,6 +21,14 @@ def getSpec     ():
   # возвращает ТОЛЬКО если нашли РОВНО один spec-файл
   if len(final) == 1: return final[0]
   else              : print(S.oneSpec)
+def getRPMs     (toStrings=False):
+  # возвращает ВСЕ пакеты из ~/rpmbuild/RPMS
+  final = []
+  for  dir in G.dirs['work']['rbuild']['rpms'].iterdir():
+    if dir.is_dir():
+      for  file in dir.glob('*.rpm'):
+        final.append(str(file) if toStrings else file)
+  return final
 
 # защита от запуска модуля
 if __name__ == '__main__':

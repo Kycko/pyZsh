@@ -6,6 +6,7 @@ import pzexec.globals     as G
 import pzexec.strings     as S
 import pzexec.stringFuncs as SF
 import pzexec.listFuncs   as LF
+if not G.isArch: import pzexec.packages as PKG
 
 # шаблон, реализация try-except
 class Help():
@@ -59,6 +60,155 @@ class Help():
   def printZSH (self):
     for  k,d in self.getTask().items():
       if k.startswith(G.tk): print(f"{d['zsh']}:{d['desc']}")
+
+# отрисовка текущего действия и статуса (OK/FAILED)
+class Progress():
+  def __init__(self):
+    self.counterLen = 0 # доп. длина сообщений в шагах (для счётчика)
+  #### основные этапы выполнения
+  def startStage(self,title:str,color:str,bold=True):
+    print() ; print(SF.color(title,color,bold))
+  def pkgStage  (self,title:str,pkg  :str,titleColor='blu'):
+    fTitle = SF.color(title,titleColor,True)
+    fPkg   = SF.color(pkg  ,'ylw',True)
+    print() ; print(f'{fTitle}: {fPkg}')
+  #### шаги (действия внутри основных этапов)
+  def startStep      (self,string:str ,counter:int=None):
+    def _align(txt:str):
+      length = len(SF.cutColors(txt))
+      max    = G.maxStepLen + self.counterLen
+      for i in range(length,max): txt += '.'
+      return txt
+    if counter: string += f' [{counter}]'
+    print(_align(string),end='',flush=True)
+  def finishStep     (self,status:bool,tip=''):
+    # для сокращения кода возвращаем этот же статус
+    # tip = любой текст, будет выведен в скобках
+    final = S.progress['steps']['status'][status]
+    if tip: final += f' ({tip})'
+    print(final)
+    return status
+  def finishStepCount(self,count :int ,savePos=False):
+    # выводит одну финальную цифру
+    # для сокращения кода возвращаем эту же цифру
+    # savePos нужен для счётчика, возвращать каретку к началу числа
+    end   = ''    if savePos else '\n'
+    color = 'blu' if count   else 'red'
+    print(SF.color(str(count),color,True),end=end,flush=True)
+    if savePos: print('\b' * len(str(count)), end='')
+    return count
+
+  #### специфические действия, но нужные для нескольких скриптов
+  def checkPkgs(self,pkgs:list,rpm:bool,onlyFile=False):
+    # запускает проверку множества пакетов
+    # onlyFile нужен для rpm=True:
+    #   он отключает поиск установленных, берём только файлы .rpm с диска
+    def _checkPkg(pkg:str,counter:int):
+      # ВСЕГДА запускаем через checkPkgs, поэтому эта функция спрятана внутрь
+      self.startStep(S.progress['steps']['pkg']['check'],counter)
+      found = self.pkgDB.query(pkg)
+      if found: tip = SF.findToColor(found.nevra,pkg,'ylw',True)
+      else    : tip = ''
+
+      if self.finishStep(bool(found),tip):
+        # сохраняем номер на будущее, чтобы у пользователя не было путаницы
+        found.initNum = counter
+        return found
+    if len(pkgs) > 1:
+      self.counterLen = len(str(len(pkgs))) + 3 # +3: пробел и две скобки []
+    self.startStep(S.progress['steps']['upd'])
+    final = []
+    self.pkgDB = PKG.RPM(onlyFile) if rpm else PKG.DNF()
+    if self.finishStep(self.pkgDB.dbLoaded):
+      for i,pkg in enumerate(pkgs,start=1):
+        counter = i if len(pkgs) > 1 else None
+        found   = _checkPkg(pkg,counter)
+        if found: final.append(found)
+      # возвращаем всегда список ОБЪЕКТОВ пакетов
+      return final
+
+  ### зависимости
+  def hardSoftDepHeader(self,type:str ,count:int):
+    def _printSeparator(): print('-'*sepLen)
+    tObj     = S.tableHeaders['deps'][type]
+    # sep = separator
+    sepLen   = len(SF.cutColors(tObj)) + len(str(count)) + 7
+    countStr = SF.color(str(count),'blu' if count else 'red',True)
+
+    _printSeparator()
+    print(f'| {tObj} | {countStr} |')
+    if not count: _printSeparator()
+    return sepLen # возвращаем для выравнивания остальной таблицы
+  def getDeps          (self,pkgs:list,type:str):
+    # pkgs = список[] объектов DNF/RPMpackage
+    # type = r/p/rp (requires & recommends / provides)
+    # функция возвращает ТОЛЬКО пакеты хотя бы с одной зависимостью
+    def _counter(type:str,pkg):
+      final = 0
+      if 'r' in type:
+        final += len(pkg.deps['hard']) + len(pkg.deps['soft'])
+      if 'p' in type: final += len(pkg.provides)
+      return final
+    final = []
+    mKey  = ('provs','deps')['r' in type]
+    msg   = S.progress['steps']['pkg'][mKey]
+    for pkg in pkgs:
+      self.startStep(msg,pkg.initNum)
+      if pkg.getDeps(type): final.append(pkg)
+      self.finishStepCount(_counter(type,pkg))
+    return final
+  def showDeps         (self,pkg ,type:str):
+    # pkg = ОДИН объект DNF/RPMpackage
+    # type = r/p/rp (requires & recommends / provides)
+    def _output(deps:dict,hKey:str,minLen=0):
+      # hKey = header key
+      if deps:  # без этого будет выводить пустые мягкие зависимости
+        final = []
+        for dep in deps:
+          final.append([dep['name'], f"{dep['sign']} {dep['ver']}"])
+        # ↓ вроде как сортирует по элементам первого столбца
+        final.sort(key=lambda x:x[0])
+        showTable(S.tableHeaders['deps'][hKey],final,minLen)
+    if 'r' in type:
+      for hardsoft,deps in pkg.deps.items():
+        sepLen = self.hardSoftDepHeader(hardsoft,len(deps))
+        _output(deps,'deps',sepLen)
+    if 'p' in type: _output(pkg.provides,'provides')
+
+def showTable(header:list,data:list,minLen=None):
+  # цвета везде нужны разные, поэтому ЗДЕСЬ НИЧЕГО НЕ КРАСИМ
+  # другие функции и скрипты сами должны добавлять цвет
+  # а эта функция только считает длины строк и выводит красивую таблицу
+  # header[] = список заголовков (для каждого столбца)
+  # data[[]] = список строк, в каждой строке список по столбцам
+  # minLen   = [опционально] минимальная длина строки для выравнивания
+  # вырезаем все цвета для правильного подсчёта длин
+  def _getLengths    (header:list,data:list,minLen:int):
+    lengths = [len(SF.cutColors(item)) for item in header]
+    for line in data:
+      for i,cell in enumerate(line):
+        fLen = len(SF.cutColors(cell))
+        if fLen > lengths[i]: lengths[i] = fLen
+
+    total = sum(lengths) + 3*len(lengths) + 1
+    if total < minLen:
+      lengths[0] += minLen-total
+      total       = minLen
+    return lengths,total
+  def _printSeparator(): print('-'*lenTotal)
+  def _printLine     (line:list):
+    final = '| '
+    for i,cell in enumerate(line):
+      final += SF.alignColored(cell,lenCols[i]) + ' | '
+    print(final[:-1]) # лишний пробел
+
+  # lenCols = список[] по столбцам
+  lenCols,lenTotal = _getLengths(header,data,minLen)
+  _printSeparator()
+  _printLine(header)
+  _printSeparator()
+  for line in data: _printLine(line)
+  _printSeparator()
 
 # защита от запуска модуля
 if __name__ == '__main__':
