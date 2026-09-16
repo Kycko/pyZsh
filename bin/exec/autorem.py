@@ -1,9 +1,10 @@
 from   sys import exit    as SYSEXIT
 import pzexec.globals     as G
-import pzexec.listFuncs   as LF
 import pzexec.output      as O
 import pzexec.runFuncs    as RF
 import pzexec.stringFuncs as SF
+# нужен такой порядок, чтобы не было ошибок частичного импорта
+import pzexec.listFuncs   as LF
 
 # основные функции
 def main(args:list):
