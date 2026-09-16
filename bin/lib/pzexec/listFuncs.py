@@ -16,6 +16,19 @@ def filter_byStr(list:list,txt:str,lower=True,strip='',colorize='',bold=False):
       if colorize: item = SF.findToColor(item,txt,colorize,bold)
       final.append(item)
   return final
+def filterEnds  (list:list,txt:str,lower=True,strip='l'):
+  # фильтрует список по окончаниям строк
+  # strip может быть l/t/lt: обрезать list item/txt/оба
+  final = []
+  if lower:        txt = txt.lower()
+  if 't' in strip: txt = txt.strip()
+
+  for item in list:
+    cur = item
+    if lower:        cur = cur.lower()
+    if 'l' in strip: cur = cur.strip()
+    if cur.endswith(txt): final.append(item)
+  return final
 
 # проверка данных
 def getMaxLen(list:list,rmColors=True):
