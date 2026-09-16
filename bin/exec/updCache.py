@@ -109,11 +109,10 @@ class Globals():  # глобальные (для этого скрипта) пе
       elif pyZsh        : return f'{pre} кеша {pyZshstr}'
       else              : return ''
 
-    dnf = '' if G.isArch else 'DNF/'
     # доступность скрипта + описание для bin/exec/help
     self.dist = {'dist':['arch','red'],
                  'cat' : 'пакеты в ОС',
-                 'desc':f'обновление кешей {dnf}pyZsh',
+                 'desc':f'обновление кешей пакетов/pyZsh',
                  'abbr': 'updCache',
                  'help':  True} # показывать ли "(есть HELP)"
 
