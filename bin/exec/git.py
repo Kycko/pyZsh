@@ -1,3 +1,4 @@
+from   os.path import commonpath
 from   pathlib import Path
 from   sys     import exit as SYSEXIT
 import pzexec.fileFuncs    as FF
@@ -20,7 +21,15 @@ def main(args:list):
     if   db['func']: db['func'](fArgs)
     elif db['cmd' ]: run(db['cmd'] + fArgs)
     else           : RF.raiseError()
-def run (args:list): RF.run([G.sysBins['git']] + args)
+def run (args:list):
+  def _mail():
+    cur = Path().resolve()
+    for cPath,mail in G.gitMails.items():
+      if commonpath([str(cur),cPath]) == cPath: return mail
+    return G.baseMail
+  RF.run([G.sysBins['git'],
+         '-c', 'user.name=Anton Samartsev',
+         '-c',f'user.email={_mail()}'] + args)
 
 def back  (args:list):
   # успешное выполнение возвращает 0

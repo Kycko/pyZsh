@@ -14,7 +14,7 @@ dirs = {'home':Path('/home/kycko')}
 # КЕШ ЗАДАН НИЖЕ, ЕМУ НУЖНА ПЕРЕМЕННАЯ distro!
 # репозитории
 dirs['repos'] = {'local':{'root':dirs['home']/'data/repos'}}
-dirs['repos']['pyZsh'] = {'root' :dirs['repos']['local']['root']/'pyZsh'}
+dirs['repos']['pyZsh'] = {'root':dirs['repos']['local']['root']/'pyZsh'}
 dirs['repos']['pyZsh']['exec']    = dirs['repos']['pyZsh']['root']/'bin/exec'
 dirs['repos']['pyZsh']['zshSugg'] = dirs['repos']['pyZsh']['root']/'bin/suggestions'
 # рабочие
@@ -36,6 +36,10 @@ files = {
   'distro' :Path('/etc/os-release'),
   'binInit':dirs['repos']['pyZsh']['exec'].parent / 'init.py',
   'ssh'    :{'hosts':dirs['home']/'.ssh/known_hosts'},
+  'mail'   :{
+    'arch' :dirs['home']/'data/cloud/myFiles/comp/sysconfig/linux/mail.txt',
+    'red'  :dirs['home']/'data/cloud/sysconfig/mail.txt'
+    },
   'plugins':{
     'arch' :[
       Path('/usr/share/doc/pkgfile/command-not-found.zsh'),
@@ -117,6 +121,9 @@ inVirt = not files['ssh']['hosts'].is_file()
 
 onBTRFS = IF.checkBTRFS()
 
+# почта нужна только для скриптов, но там будут сложности импорта
+mail = IF.readMail(files['mail'][distType])
+
 ########### модули/плагины
 try   : sources_toLoad = files['plugins'][distro]
 except: sources_toLoad = []
@@ -129,7 +136,7 @@ aliases = {
   'gdh' : 'git diff HEAD',  # в моём git есть разбивка по guiterm
   'gl'  :f"{sysBins['git']} log",
   'ga'  :f"{sysBins['git']} add --all && {sysBins['git']} status",
-  'gc'  :f"{sysBins['git']} commit -m",
+  'gc'  : 'git commit', # чтобы брать почту в зависимости от каталога
   ####### прочее
   'clr' :'clear && fastfetch',
   'diff':'diff --color=auto',

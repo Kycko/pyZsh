@@ -47,6 +47,9 @@ def binAlias(dir,onBTRFS:bool,distType:str,initfile):
       db[f.stem] = deepcopy(props)
       db[f.stem]['launch'] = f'python3 {initfile} {f.name} "$@"'
   return db
+def readMail(file): # file = объект Path
+  try   : return FF.readFile(file)[0]
+  except: RF.confError(f'Ошибка чтения файла почты: {file}')
 
 # защита от запуска модуля
 if __name__ == '__main__':

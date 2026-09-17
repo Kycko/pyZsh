@@ -26,10 +26,6 @@ dirs['snaps'] = {'cur'   :Path('/mnt/@root'),
 
 ############## файлы
 files.update({
-  'mail'    :{
-    'arch'  :dirs['home']/'data/cloud/myFiles/comp/sysconfig/linux/mail.txt',
-    'red'   :dirs['home']/'data/cloud/sysconfig/mail.txt'
-    },
   'mounts'  :Path('/proc/mounts'),
   'newPatch':dirs['work']['local']['patches']/'name.patch'
   })
@@ -67,6 +63,11 @@ colors['term'] = {'blk':'\033[30m', # black
 for bin in ['btrfs','meld','patch']: sysBins[bin] = which(bin)
 
 ############## прочее
+baseMail = 'ant.samarcev@gmail.com'
+# mail = почта, прочитанная из файла
+if isArch: gitMails = {str(dirs['repos']['local']['aurSrc']):mail}
+else     : gitMails = {str(dirs['work']['cloud'])           :mail}
+
 zshFlag = '--zsh-data'
 # (task key) = с чего должен начинаться подпункт в Globals() скриптов
 tk = '::'

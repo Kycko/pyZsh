@@ -31,17 +31,13 @@ def main(args:list):
     # if 'check'      in task['mod']: specCheck.main(fArgs)
   def _post():                      # и после запуска
     if 'date' in task['mod']:
-      file = G.files['mail'][G.distType]
-      try   : email = FF.readFile(file)[0]
-      except: print(f'{S.noFile} {file}') ; return
-
       start = '' if G.isArch else '* '
 
       # setlocale важен, чтобы получить на английском
       setlocale(LC_TIME,'en_US.UTF-8')
       date = datetime.now().strftime('%a %b %d %Y')
 
-      print(f'{start}{date} Anton Samartsev <{email}> - 0:')
+      print(f'{start}{date} Anton Samartsev <{G.mail}> - 0:')
 
   task,fArgs = GF.getTask(args,SG.tasks)
   _mod(task,fArgs)
