@@ -26,6 +26,17 @@ _pzBridge() {
     # используем названия с тремя подчёркиваниями
     # чтобы точно не было путаницы со всякими данными
     case "${final}" in
+      ___drive)
+        # разделы дисков
+        local -a dev_list
+        # ищем строго блочные файлы устройств в /dev/ (флаг %b в zsh-глоббинге)
+        dev_list=(/dev/*(%b))
+        # если extended_glob выключен, сделаем надежный фолбэк через простой lsblk
+        if (( ${#dev_list} == 0 )); then
+          dev_list=(${(f)"$(lsblk -pnro NAME 2>/dev/null)"})
+        fi
+        compadd -a dev_list
+        ;;
       ___patch)  _files -g "*.patch"   ;;
       ___path)   _files ;;
       ___spec)   _files -g "*.spec"    ;;

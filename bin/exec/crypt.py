@@ -41,7 +41,8 @@ class Globals():  # глобальные (для этого скрипта) пе
         'desc' :'open  luks (стандартный метод в Linux)',
         'help' :False,
         'cmd'  :opencmd + ['luks'],
-        'args' :2 # сколько аргументов требуется
+        'args' :2,  # сколько аргументов требуется
+        'zSugg':'___drive'
         },
       '::ov'   :{
         '_pre' :[],'_post':[],
@@ -49,7 +50,8 @@ class Globals():  # глобальные (для этого скрипта) пе
         'desc' :'open  veracrypt',
         'help' :False,
         'cmd'  :opencmd + ['tcrypt'],
-        'args' :2 # сколько аргументов требуется
+        'args' :2,  # сколько аргументов требуется
+        'zSugg':'___drive'
         },
       '::close':{
         '_pre' :[],'_post':[],
