@@ -26,10 +26,12 @@ _pzBridge() {
     # используем названия с тремя подчёркиваниями
     # чтобы точно не было путаницы со всякими данными
     case "${final}" in
-      ___patch) _files -g "*.patch" ;;
-      ___path)  _files ;;
+      ___patch)  _files -g "*.patch"   ;;
+      ___path)   _files ;;
+      ___spec)   _files -g "*.spec"    ;;
+      ___srcrpm) _files -g "*.src.rpm" ;;
       # ↓ если маркер не совпал, проваливаемся дальше к _describe
-      *)        false  ;;
+      *)         false  ;;
     # ↓ return сработает, только если любое условие выполнено
     # ↓ завершаем работу: сам final не выводим
     esac && return 0

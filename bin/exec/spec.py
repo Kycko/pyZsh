@@ -106,7 +106,8 @@ class Globals():  # глобальные (для этого скрипта) пе
           'abbr' : 'fin   ' + specfile,'zsh':'fin','sep':':',
           'desc' :f'показать {self.specabbr}-файл с учётом замены макросов',
           'help' :False,
-          'cmd'  :'rpmspec -P','args':'h','mod':['getSpecArg','fin']
+          'cmd'  :'rpmspec -P','args':'h','mod':['getSpecArg','fin'],
+          'zSugg':'___spec'
           },
         # '::check':{
         #   '_pre' :[],'_post':[],
@@ -141,7 +142,8 @@ class Globals():  # глобальные (для этого скрипта) пе
           'abbr' :'ir  ' + srcrpm,'zsh':'ir','sep':':',
           'desc' :'установка зависимостей из ' + srcrpm,
           'help' :False,
-          'cmd'  :['dnf','builddep'],'args':'s','mod':['rpmbuild','addArg']
+          'cmd'  :['dnf','builddep'],'args':'s','mod':['rpmbuild','addArg'],
+          'zSugg':'___srcrpm'
           },
         '::dwn'  :{
           '_pre' :[],'_post':[],
@@ -149,7 +151,8 @@ class Globals():  # глобальные (для этого скрипта) пе
           'desc' :'скачать исходники',
           'help' :False,
           # строкой, потому что getSpecArg нужен и для spec fin
-          'cmd'  :'spectool -g','args':'h','mod':['getSpecArg']
+          'cmd'  :'spectool -g','args':'h','mod':['getSpecArg'],
+          'zSugg':'___spec'
           }
         })
 
