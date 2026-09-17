@@ -60,7 +60,8 @@ class Globals():  # глобальные (для этого скрипта) пе
         'desc' :'поиск по файлу (только имя либо полный путь)',
         'help' :False,
         'cmd'  :['pkgfile','-s'],
-        'local':False
+        'local':False,
+        'zSugg':'_path'
         }
     else:
       self.tasks['::rv'] = {
@@ -71,7 +72,7 @@ class Globals():  # глобальные (для этого скрипта) пе
         'local':False
         }
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/
-class Help(O.Help): pass  # здесь стандартный
+class Help(O.Help): pass
 
 # защита от запуска модуля
 if __name__ == '__main__':

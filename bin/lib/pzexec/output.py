@@ -58,8 +58,13 @@ class Help():
       if tKey.startswith(G.tk): print(_getLine(tData,leftLen))
     for line in db['_post']: print(line)
   def printZSH (self):
-    for  k,d in self.getTask().items():
-      if k.startswith(G.tk): print(f"{d['zsh']}:{d['desc']}")
+    printed = False
+    db = self.getTask()
+    for  k,d in db.items():
+      if k.startswith(G.tk):
+        printed = True
+        print(f"{d['zsh']}:{d['desc']}")
+    if not printed and 'zSugg' in db.keys(): print(db['zSugg'])
 
 # отрисовка текущего действия и статуса (OK/FAILED)
 class Progress():
