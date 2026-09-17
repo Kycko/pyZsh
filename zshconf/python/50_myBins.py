@@ -22,7 +22,7 @@ for name,value in G.__dict__.items():
     print(f"_pzGlobals[{name}]='{value}';")
 
 # из словарей придётся доставать по отдельности
-print(f"_pzGlobals[dnfCache]='{G.files['cache']['pkglist']}'")
+print(f"_pzGlobals[pkgCache]='{G.files['cache']['pkglist']}'")
 
 
 # защита от запуска модуля
