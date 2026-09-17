@@ -6,5 +6,8 @@
   "python.autoComplete.extraPaths": [
     "./bin/lib",
     "./zshconf/python/lib"
-  ]
+  ],
+  "files.associations": {
+    "**/bin/suggestions/_*": "shellscript"
+  }
 }

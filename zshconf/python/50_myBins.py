@@ -17,7 +17,7 @@ print('typeset -gA _pzGlobals;')  # регистрируем переменну�
 for name,value in G.__dict__.items():
   # игнорируем встроенные системные атрибуты типа __file__
   if name.startswith('__'): continue
-  # берём только
+  # берём только эти типы данных
   if isinstance(value,(bool,str)):
     print(f"_pzGlobals[{name}]='{value}';")
 
