@@ -14,7 +14,8 @@ for name,props in G.myBins.items():
   # регистрируем функцию
   print(name + '() { ' + props['launch'] + ' }')
   # подключаем автодополнение к конкретному скрипту
-  print(f'compdef _pzBridge {name};')
+  # но только не для git, в нём нужны стандартные
+  if name != 'git': print(f'compdef _pzBridge {name};')
 
 ############# экспортируем глобальные переменные для автодополнений
 print('typeset -gA _pzGlobals;')  # регистрируем переменную
