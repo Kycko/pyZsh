@@ -2,7 +2,6 @@
 
 from   sys import exit as SYSEXIT
 import pzexec.globals  as G
-import pzexec.output   as O
 import pzexec.strings  as S
 import pzexec.runFuncs as RF
 
@@ -14,7 +13,7 @@ def main(args:list):
     props['cmd'] += args
     try: RF.run(**props)
     except KeyboardInterrupt: print(S.userCancel)
-  elif G.isArch: print(S.addPkg)
+  else: print(S.addPkg)
 
 # классы
 class Globals():  # глобальные (для этого скрипта) переменные
@@ -28,7 +27,6 @@ class Globals():  # глобальные (для этого скрипта) пе
 
     self.tasks = None
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/
-class Help(O.Help): pass  # здесь стандартный
 
 # защита от запуска модуля
 if __name__ == '__main__':

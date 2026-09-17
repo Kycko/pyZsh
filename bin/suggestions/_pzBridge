@@ -1,0 +1,17 @@
+# единый мост автодополнения для всех python-скриптов pyZsh
+
+_pzBridge() {
+  # 1. $words[1] содержит имя вызываемой функции (например, 'ins' или 'rem')
+  local cmdName="$words[1]"
+  
+  # 2. Проверяем, существует ли вообще такая Zsh-функция в памяти
+  if (( $+functions[${cmdName}] )) ; then
+    local -a final
+
+    # 3. Вызываем функцию напрямую, добавляя флаг и текущее вводимое слово
+    final=(${(f)"$(${cmdName} --zsh-data "${words[CURRENT]}" 2>/dev/null)"})
+
+    # 4. Отображаем полученные от Python варианты
+    compadd -a final
+  fi
+}

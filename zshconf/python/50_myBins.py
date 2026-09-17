@@ -7,22 +7,19 @@ import zshconf.globals as G
 ############# функции
 # мои скрипты выдаём в виде функций, а не алиасов
 # иначе не будут работать автодополнения
-for name,props in G.myBins.items():
-  print(name + '() { ' + props['launch'] + ' }')
 
+# один раз объявляем автозагрузку моста
+print('autoload -Uz _pzBridge;')
+for name,props in G.myBins.items():
+  # регистрируем функцию
+  print(name + '() { ' + props['launch'] + ' }')
+  # подключаем автодополнение к конкретному скрипту
+  print(f'compdef _pzBridge {name};')
 
 ############# экспортируем глобальные переменные для автодополнений
 print('typeset -gA _pzGlobals;')  # регистрируем переменную
-
-for name,value in G.__dict__.items():
-  # игнорируем встроенные системные атрибуты типа __file__
-  if name.startswith('__'): continue
-  # берём только эти типы данных
-  if isinstance(value,(bool,str)):
-    print(f"_pzGlobals[{name}]='{value}';")
-
-# из словарей придётся доставать по отдельности
-print(f"_pzGlobals[pkgCache]='{G.files['cache']['pkglist']}'")
+# единственная переменная, которая нужна для алиаса less
+print(f"_pzGlobals[isArch]='{G.isArch}'")
 
 
 # защита от запуска модуля
