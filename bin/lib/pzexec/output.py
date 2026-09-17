@@ -67,7 +67,9 @@ class Help():
         printed = True
         print(f"{d['zsh']}:{d['desc']}")
     if not printed and 'zSugg' in db.keys(): print(db['zSugg'])
-  def zshPackages(self,local:bool):
+  def zshPackages(self,local:bool,withFiles=False):
+    # функция печатает пакеты для дополнения zsh
+    # local = установленные либо все из репозиториев
     def _local():
       if G.isArch: cmd = ['pacman','-Qq']
       else       : cmd = ['rpm','-qa','--qf','%{NAME}\n']
@@ -89,10 +91,11 @@ class Help():
             final.append(pkg.name)
       return final
 
-    # функция печатает пакеты для дополнения zsh
-    # local = установленные либо все из репозиториев
     final = _local() if local else _repos()
     for line in final: print(line)
+
+    # в Арче это всё не нужно
+    if withFiles and not G.isArch: print('___RPMfiles')
 
 # отрисовка текущего действия и статуса (OK/FAILED)
 class Progress():

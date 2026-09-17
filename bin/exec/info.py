@@ -221,7 +221,9 @@ class Help(O.Help):
 
     # это условие вызывает дополнение имён пакетов
     # первый аргумент = например, 'lf' ; из него берём первую букву
-    if self.args: self.zshPackages(self.args[0].startswith('l'))
+    if self.args:
+      local = self.args[0].startswith('l')
+      self.zshPackages(local,local)
     else:
       raw,abbrLen = _autoget()
       # особые задачи

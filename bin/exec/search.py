@@ -61,7 +61,7 @@ class Globals():  # глобальные (для этого скрипта) пе
         'help' :False,
         'cmd'  :['pkgfile','-s'],
         'local':False,
-        'zSugg':'_path'
+        'zSugg':'___path'
         }
     else:
       self.tasks['::rv'] = {

@@ -14,7 +14,7 @@ SG.tasks = {
   }
 
 class Help(O.Help):
-  def printZSH(self): self.zshPackages(False)
+  def printZSH(self): self.zshPackages(False,True)
 
 # защита от запуска модуля
 if __name__ == '__main__':
