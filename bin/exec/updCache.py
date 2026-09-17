@@ -21,7 +21,7 @@ def main(args:list):
     except KeyboardInterrupt: print(S.userCancel)
 
 def fork (args:list):
-  def _run(task:str): dnf() if task == 'dnf' else pyZsh()
+  def _run(task:str): pkg() if task == 'pkg' else pyZsh()
   task = args.pop(0)
   # ↓ добавить ЛЮБОЙ аргумент, чтобы запустить отдельным процессом
   if args:
@@ -40,17 +40,22 @@ def write(file,status:bool=None): # file = объект Path
   final = str(int(time()))
   if status is not None: final += f' {status}'
   FF.write_toFile(final,file)
-def dnf  ():
-  os.makedirs(str(G.dirs['cache']['dnf']),exist_ok=True)
+def pkg  ():
+  os.makedirs(str(G.dirs['cache']['pkg']),exist_ok=True)
   cFiles = G.files['cache']
 
-  base = PKG.DNF()  # "прогреваем" кеш DNF
-  if base.dbLoaded:
-    # получаем только уникальные имена доступных пакетов
-    pkgs = set(pkg.name for pkg in base.api.sack.query().available())
-    FF.write_toFile(sorted(pkgs),cFiles['pkglist'])
+  if G.isArch: pkgs = RF.run(['yay','-Slq'],'t')
+  else:
+    base = PKG.DNF()  # "прогреваем" кеш DNF
+    if base.dbLoaded:
+      # получаем только уникальные имена доступных пакетов
+      pkgs = set(pkg.name for pkg in base.api.sack.query().available())
+
+  if pkgs:  # на всякий случай, чтобы не перезаписывать пустотой
+    pkgs = LF.rmBlanks(sorted(pkgs))
+    FF.write_toFile(pkgs,cFiles['pkglist'])
     # записываем текущий timestamp
-    write(cFiles['updTime']['dnf'])
+    write(cFiles['updTime']['pkg'])
 def pyZsh():  # проверяет наличие обновлений моего pyZsh
   # проверка нужна, чтобы в виртуалках не запускалось
   os.makedirs(str(G.dirs['cache']['root']),exist_ok=True)
@@ -83,7 +88,7 @@ def status(args:str): # args[0] = 'status'
       return S.noFile.lower()
     else:
       try   : data = FF.readFile(file)[0].strip().split()
-      except: return SF.color("обновите данные ('clear')",'red',True)
+      except: return SF.color("обновите данные ('clr')",'red',True)
 
       diff = datetime.now() - datetime.fromtimestamp(int(data.pop(0)))
       days = diff.days
@@ -120,8 +125,8 @@ class Globals():  # глобальные (для этого скрипта) пе
     # (для функции status)
     self.timeout = 4
 
-    rootcache = 'обновить кеш пакетов'
-    usercache =  rootcache
+    rootcache = 'обновить системный кеш пакетов'
+    usercache = 'обновить кеш пакетов пользователя (мой кастомный)'
     if not G.isArch:
       rootcache += f" {SF.color('root','red',True)}'а"
 
@@ -141,20 +146,17 @@ class Globals():  # глобальные (для этого скрипта) пе
                  'help':False,
                  'func':None,
                  'cmd' :{'arch':{'cmd':['yay','-Sy']},
-                         'red' :{'cmd':['dnf','makecache'],'args':'s'}}}
+                         'red' :{'cmd':['dnf','makecache'],'args':'s'}}},
+      '::pkg'  :{'_pre':[],'_post':[],
+                 'abbr':_abbr('pkg'),'zsh':'pkg',
+                 'sep' :':',
+                 'desc':usercache,
+                 'help':False,
+                 'func':fork}
       }
 
-    self.caches = []
-    if not G.isArch:
-      self.caches.append('dnf')
-      self.tasks['::dnf'] = {
-        '_pre':[],'_post':[],
-        'abbr':_abbr('dnf'),'zsh':'dnf',
-        'sep' :':',
-        'desc':f'{usercache} пользователя + мой кастомный кеш {dnfstr}',
-        'help':False,
-        'func':fork
-        }
+    self.caches = ['pkg']
+
     if not G.inVirt:
       self.caches.append('pyZsh')
       self.tasks['::pyZsh'] = {

@@ -162,12 +162,13 @@ exports = {'EDITOR'        :'nano',
 
 ############# кеш
 dirs['cache'] = {'root':dirs['home']/'data/cache'}
-dirs['cache']['dnf'] = dirs['cache']['root']/'dnf'/f'RO{distro}'
+if isArch: dirs['cache']['pkg'] = dirs['cache']['root']/ 'pkg'
+else     : dirs['cache']['pkg'] = dirs['cache']['root']/f'dnf/RO{distro}'
 
 # хотел перенести pkglist в pzexec.globals, но там проблема чтения dirs['cache']
-files['cache'] = {'pkglist':dirs['cache']['dnf'] /'packages.txt',
+files['cache'] = {'pkglist':dirs['cache']['pkg']/'packages.txt',
                   # в таком формате updTime удобнее для кода
-                  'updTime':{'dnf'  :dirs['cache']['dnf'] /'updTime.txt',
+                  'updTime':{'pkg'  :dirs['cache']['pkg'] /'updTime.txt',
                              'pyZsh':dirs['cache']['root']/'pyZsh.txt'}}
 
 ############# прочее
