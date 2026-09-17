@@ -1,42 +1,20 @@
 #compdef ins
 
 _ins() {
-  if [[ "${_pzGlobals[isArch]}" == "True" ]]
+  local cacheFile="${_pzGlobals[pkgCache]}"
+  local -a pkgs
+
+  if [[ -f "${cacheFile}" ]]
     then
-      local cache_dir="$HOME/.cache/zsh_completion"
-      local cache_file="$cache_dir/arch_packages"
-      local -a arch_pkgs
-
-      # Если папки для кэша нет, создаем её
-      [[ -d "$cache_dir" ]] || mkdir -p "$cache_dir"
-
-      # Если файла кэша нет ИЛИ он старше 24 часов (-mtime +0), обновляем его
-      if [[ ! -f "$cache_file" || -n "$(find "$cache_file" -mtime +0 2>/dev/null)" ]]; then
-        if (( $+commands[yay] ))
-          then 
-            arch_pkgs=(${(f)"$(yay -Slq 2>/dev/null)"})
-            # Сразу срезаем префикс "aur/", чтобы поиск по первым буквам работал идеально
-            arch_pkgs=(${arch_pkgs#aur/})
-          else 
-            arch_pkgs=(${(f)"$(pacman -Slq 2>/dev/null)"})
-        fi
-        # Сохраняем собранный список в файл
-        print -l "${arch_pkgs[@]}" > "$cache_file"
-      fi
-
-      # МГНОВЕННЫЙ ЗАПУСК: Читаем уже готовый файл кэша в массив Zsh (0.001 сек)
-      arch_pkgs=(${(f)"$(cat "$cache_file")"})
-      compadd -a arch_pkgs
+      # основной путь для обеих систем: читаем кэш из Python
+      pkgs=(${(f)"$(cat "${cacheFile}")"})
     else
-      local cache_file="${_pzGlobals[dnfCache]}"
-
-      if [[ -f "${cache_file}" ]]
-        then 
-          local -a dnf_pkgs
-          dnf_pkgs=(${(f)"$(cat "${cache_file}")"})
-          compadd -a dnf_pkgs
-        else 
-          _dnf install
+      # фоллбэк на случай, если файл кеша отсутствует
+      if [[ "${_pzGlobals[isArch]}" == "True" ]]
+        then pkgs=(${(f)"$(pacman -Slq 2>/dev/null)"})
+        else _dnf install && return 0
       fi
   fi
+
+  compadd -a pkgs # единая точка вывода вариантов
 }
