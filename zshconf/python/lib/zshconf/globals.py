@@ -158,8 +158,7 @@ exports = {'EDITOR'        :'nano',
            # ↓ здесь {HOME}, чтобы корректно работало у root'а
            'HISTFILE'      :'${HOME}/.zshHistory',
            # ↓ чтобы работало удаление в корзину в VS Code
-           'ELECTRON_TRASH':'kioclient',
-           '_pzIsArch'     :str(isArch)}  # нужно для подмены less
+           'ELECTRON_TRASH':'kioclient'}
 
 ############# кеш
 dirs['cache'] = {'root':dirs['home']/'data/cache'}

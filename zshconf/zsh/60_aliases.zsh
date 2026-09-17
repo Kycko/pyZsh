@@ -6,7 +6,7 @@ less_wrapper() {
   local base=()
 
   # [[ -t 0 ]] = если открываем файл напрямую (stdin — терминал)
-  if [[ "$_pzIsArch" == "True" ]] || [[ -t 0 ]]
+  if [[ "${_pzGlobals[isArch]}" == "True" ]] || [[ -t 0 ]]
     then base=("$@")
     else base=(--syntax=spec)
   fi
