@@ -222,20 +222,23 @@ class Help(O.Help):
     # это условие вызывает дополнение имён пакетов
     # первый аргумент = например, 'lf' ; из него берём первую букву
     if self.args:
-      local = self.args[0].startswith('l')
-      self.zshPackages(local,local)
-    else:
-      raw,abbrLen = _autoget()
-      # особые задачи
-      if   'special' in SG.tasks.keys():
-        for key,data in SG.tasks['special'].items():
-          abbr = data['abbr1'] + data['abbr2']
-          print(f"{key}:[{abbr.ljust(abbrLen)}] {data['desc']}")
-      # основной список задач
-      for   r in SG.tasks['repo'].keys():
-        for t in SG.tasks['task'].keys():
-          mKey = r+t
-          print(f"{mKey}:{raw[mKey]['zsh']} {raw[mKey]['desc']}")
+      if   self.args[0]  == 'ad': print('___RPMfiles') ; return
+      elif len(self.args[0]) > 1:
+        local = self.args[0].startswith('l')
+        self.zshPackages(local,local)
+        return  # больше ничего не надо
+
+    raw,abbrLen = _autoget()
+    # особые задачи
+    if   'special' in SG.tasks.keys():
+      for key,data in SG.tasks['special'].items():
+        abbr = data['abbr1'] + data['abbr2']
+        print(f"{key}:[{abbr.ljust(abbrLen)}] {data['desc']}")
+    # основной список задач
+    for   r in SG.tasks['repo'].keys():
+      for t in SG.tasks['task'].keys():
+        mKey = r+t
+        print(f"{mKey}:{raw[mKey]['zsh']} {raw[mKey]['desc']}")
 progress = O.Progress()
 
 # защита от запуска модуля
