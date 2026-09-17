@@ -20,11 +20,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist  = {'dist':['red'],
-                  'cat' : 'разработка',
-                  'desc': 'создание и применение патчей',
-                  'abbr': 'patch',
-                  'help': True}  # показывать ли "(есть HELP)"
+    self.dist  = {'dist' :['red'],
+                  'cat'  : 'разработка',
+                  'desc' : 'создание и применение патчей',
+                  'abbr' : 'patch',
+                  'help' : True,  # показывать ли "(есть HELP)"
+                  'zSugg': True}
 
     workdir    = G.dirs['work']['local']['patches']
     newpatch   = G.files['newPatch']

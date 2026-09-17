@@ -70,11 +70,12 @@ class Globals():  # глобальные (для этого скрипта) пе
           except: prefix = ''.ljust(mLen+5)
           task['desc'] = prefix + task['desc']
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'разработка',
-                 'desc': 'разное для написания spec-файлов',
-                 'abbr': 'spec',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'разработка',
+                 'desc' : 'разное для написания spec-файлов',
+                 'abbr' : 'spec',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     changelog     = SF.color('changelog','blu',True)
     self.specabbr = SF.color('spec'     ,'red',True)

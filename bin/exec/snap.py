@@ -54,11 +54,12 @@ def restore(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist   = {'dist':['btrfs','arch','red'],
-                   'cat' : 'BTRFS',
-                   'desc': 'снимки файловой системы',
-                   'abbr': 'snap',
-                   'help':  True} # показывать ли "(есть HELP)"
+    self.dist   = {'dist' :['btrfs','arch','red'],
+                   'cat'  : 'BTRFS',
+                   'desc' : 'снимки файловой системы',
+                   'abbr' : 'snap',
+                   'help' :  True,  # показывать ли "(есть HELP)"
+                   'zSugg':  True}
 
     sam         = SF.color('САМ','ylw')
     restoreDesc = f'restore {sam} смонтирует в /mnt устройство (/dev/...) текущего корня.'

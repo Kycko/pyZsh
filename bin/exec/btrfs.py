@@ -20,11 +20,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['btrfs','arch','red'],
-                 'cat' : 'BTRFS',
-                 'desc': 'проверить занятое место',
-                 'abbr': 'btrfs usage',
-                 'help':  False}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['btrfs','arch','red'],
+                 'cat'  : 'BTRFS',
+                 'desc' : 'проверить занятое место',
+                 'abbr' : 'btrfs usage',
+                 'help' :  False, # показывать ли "(есть HELP)"
+                 'zSugg':  False}
 
     self.addArgMSG = 'Добавьте точку монтирования (например, / или /home/kycko/data)'
     self.tasks     = None

@@ -77,11 +77,12 @@ def color (args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'прочие утилиты',
-                 'desc': 'случайные числа/цвета',
-                 'abbr': 'random',
-                 'help': True}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'прочие утилиты',
+                 'desc' : 'случайные числа/цвета',
+                 'abbr' : 'random',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     integers  = SF.color('int '  ,'red',True)
     integers += SF.color('5 3-12','grn',True)

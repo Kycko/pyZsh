@@ -414,11 +414,12 @@ class Globals():  # глобальные (для этого скрипта) пе
       self.tasks['::remote'] = final
 
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['red'],
-                 'cat' : 'разработка',
-                 'desc': 'всё, что нужно для сборки',
-                 'abbr': 'build',
-                 'help': True}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['red'],
+                 'cat'  : 'разработка',
+                 'desc' : 'всё, что нужно для сборки',
+                 'abbr' : 'build',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     self.errors = [
       'C compiler cannot create executables',

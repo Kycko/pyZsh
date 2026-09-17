@@ -115,11 +115,12 @@ class Globals():  # глобальные (для этого скрипта) пе
       else              : return ''
 
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'пакеты в ОС',
-                 'desc':f'обновление кешей пакетов/pyZsh',
-                 'abbr': 'updCache',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'пакеты в ОС',
+                 'desc' :f'обновление кешей пакетов/pyZsh',
+                 'abbr' : 'updCache',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     # спустя сколько дней считаем кеш слишком старым
     # (для функции status)

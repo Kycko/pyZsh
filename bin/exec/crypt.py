@@ -16,11 +16,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'прочее по ОС',
-                 'desc': 'открыть/закрыть зашифрованный диск',
-                 'abbr': 'crypt',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'прочее по ОС',
+                 'desc' : 'открыть/закрыть зашифрованный диск',
+                 'abbr' : 'crypt',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     part    = SF.color('раздел','blu',True)
     name    = SF.color('имя'   ,'grn')

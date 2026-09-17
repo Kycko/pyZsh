@@ -86,11 +86,12 @@ class Globals():  # глобальные (для этого скрипта) пе
     def _hlFirst(string:str): return SF.hlFirst(string,'blu',True)
 
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'разработка',
-                 'desc': 'git',
-                 'abbr': 'git',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'разработка',
+                 'desc' : 'git',
+                 'abbr' : 'git',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  False}
 
     self.repoBranches = 'Ветки в текущем репозитории:'
 

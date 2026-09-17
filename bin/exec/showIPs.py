@@ -15,11 +15,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'прочее по ОС',
-                 'desc': 'проверить, какие IP нужны программе',
-                 'abbr': 'showIPs',
-                 'help':  False}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'прочее по ОС',
+                 'desc' : 'проверить, какие IP нужны программе',
+                 'abbr' : 'showIPs',
+                 'help' :  False, # показывать ли "(есть HELP)"
+                 'zSugg':  False}
 
     self.tasks = None
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/

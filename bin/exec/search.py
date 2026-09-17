@@ -27,11 +27,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'пакеты в ОС',
-                 'desc': 'поиск пакетов',
-                 'abbr': 'search',
-                 'help': True}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'пакеты в ОС',
+                 'desc' : 'поиск пакетов',
+                 'abbr' : 'search',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     query = SF.color('Добавьте строку для поиска','red',True)
     self.tasks = {

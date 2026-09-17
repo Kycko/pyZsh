@@ -17,11 +17,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['red'],
-                 'cat' : 'пакеты в ОС',
-                 'desc': 'какой пакет предоставляет файл',
-                 'abbr': 'whoProvides',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['red'],
+                 'cat'  : 'пакеты в ОС',
+                 'desc' : 'какой пакет предоставляет файл',
+                 'abbr' : 'whoProvides',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     cnc    = SF.color('конкретному' ,'udl',False)
     quoted = SF.color('в кавычках'  ,'udl',False)

@@ -99,11 +99,12 @@ def autodiff(pkgs:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'пакеты в ОС',
-                 'desc': 'информация о пакетах',
-                 'abbr': 'info',
-                 'help':  True} # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'пакеты в ОС',
+                 'desc' : 'информация о пакетах',
+                 'abbr' : 'info',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     self.stages = {'ad':{'checkLocal':'----- Проверяем указанные пакеты',
                          'checkRepo' :'----- Ищем в репозиториях',

@@ -16,11 +16,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['arch','red'],
-                 'cat' : 'прочие утилиты',
-                 'desc': 'вывести палитру стандартных цветов терминала',
-                 'abbr': 'termColors',
-                 'help':  False}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['arch','red'],
+                 'cat'  : 'прочие утилиты',
+                 'desc' : 'вывести палитру стандартных цветов терминала',
+                 'abbr' : 'termColors',
+                 'help' :  False, # показывать ли "(есть HELP)"
+                 'zSugg':  False}
 
     self.tasks = None
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/

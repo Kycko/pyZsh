@@ -23,11 +23,12 @@ def main(pkgs:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['red'],
-                 'cat' : 'пакеты в ОС',
-                 'desc': 'проверить, кому требуется пакет',
-                 'abbr': 'whoRequires',
-                 'help': True}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['red'],
+                 'cat'  : 'пакеты в ОС',
+                 'desc' : 'проверить, кому требуется пакет',
+                 'abbr' : 'whoRequires',
+                 'help' :  True,  # показывать ли "(есть HELP)"
+                 'zSugg':  True}
 
     self.tasks = None
 

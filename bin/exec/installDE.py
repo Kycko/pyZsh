@@ -21,11 +21,12 @@ def main(args:list):
 class Globals():  # глобальные (для этого скрипта) переменные
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
-    self.dist = {'dist':['red'],
-                 'cat' : 'разработка',
-                 'desc': 'автоматическая установка DE',
-                 'abbr': 'installDE',
-                 'help':  False}  # показывать ли "(есть HELP)"
+    self.dist = {'dist' :['red'],
+                 'cat'  : 'разработка',
+                 'desc' : 'автоматическая установка DE',
+                 'abbr' : 'installDE',
+                 'help' :  False, # показывать ли "(есть HELP)"
+                 'zSugg':  False}
 
     self.tasks = {'8':{'plasma':['dolphin',
                                  'konsole',

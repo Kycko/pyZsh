@@ -53,7 +53,9 @@ class Globals():  # глобальные (для этого скрипта) пе
   def __init__(self):
     # доступность скрипта + описание для bin/exec/help
     # этому скрипту больше ничего не надо
-    self.dist  = {'dist':['arch','red'],'abbr':'help'}
+    self.dist  = {'dist' :['arch','red'],
+                  'abbr' : 'help',
+                  'zSugg': False}
     self.tasks = None
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/
 class Help(O.Help): pass  # здесь стандартный
