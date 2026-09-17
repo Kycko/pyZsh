@@ -32,20 +32,9 @@ def _updCache(timeout:int,task:str):
     except: return True
   # 'ty' важен, чтобы не ждать завершения
   if _check(): print(f"{G.aliases['updCache']} {task} ty &!")
-def _myBins  ():
-  for name,props in G.myBins.items():
-    init = G.files['binInit']
-    file = props['file'].name
-    print(name + '() {')
-    print(f'python3 {init} {file} "$@"')
-    print('}')
 
 _export(G.exports,'export')
 _export(G.aliases,'alias')
-
-# мои скрипты выдаём в виде функций, а не алиасов
-# иначе не будут работать автодополнения
-_myBins()
 
 # запускаем обновление моих кешей в фоне
 # отдельными процессами, не дожидаясь их завершения

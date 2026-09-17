@@ -1,16 +1,42 @@
 #compdef ins
 
-# Подменяем имя команды с 'ins' на 'yay'
-words[1]=yay
+_ins() {
+  if [[ "${_pzGlobals[isArch]}" == "True" ]]
+    then
+      local cache_dir="$HOME/.cache/zsh_completion"
+      local cache_file="$cache_dir/arch_packages"
+      local -a arch_pkgs
 
-# Добавляем флаг '-S' в массив аргументов вторым элементом
-words=(yay -S "${words[@]:1}")
+      # Если папки для кэша нет, создаем её
+      [[ -d "$cache_dir" ]] || mkdir -p "$cache_dir"
 
-# Сдвигаем указатель текущего слова, так как массив увеличился на один элемент
-(( CURRENT++ ))
+      # Если файла кэша нет ИЛИ он старше 24 часов (-mtime +0), обновляем его
+      if [[ ! -f "$cache_file" || -n "$(find "$cache_file" -mtime +0 2>/dev/null)" ]]; then
+        if (( $+commands[yay] ))
+          then 
+            arch_pkgs=(${(f)"$(yay -Slq 2>/dev/null)"})
+            # Сразу срезаем префикс "aur/", чтобы поиск по первым буквам работал идеально
+            arch_pkgs=(${arch_pkgs#aur/})
+          else 
+            arch_pkgs=(${(f)"$(pacman -Slq 2>/dev/null)"})
+        fi
+        # Сохраняем собранный список в файл
+        print -l "${arch_pkgs[@]}" > "$cache_file"
+      fi
 
-# Временно перезаписываем служебную переменную Zsh, чтобы она думала, что дополняет 'yay'
-local service=yay
+      # МГНОВЕННЫЙ ЗАПУСК: Читаем уже готовый файл кэша в массив Zsh (0.001 сек)
+      arch_pkgs=(${(f)"$(cat "$cache_file")"})
+      compadd -a arch_pkgs
+    else
+      local cache_file="${_pzGlobals[dnfCache]}"
 
-# Вызываем оригинальное автодополнение yay
-_yay
+      if [[ -f "${cache_file}" ]]
+        then 
+          local -a dnf_pkgs
+          dnf_pkgs=(${(f)"$(cat "${cache_file}")"})
+          compadd -a dnf_pkgs
+        else 
+          _dnf install
+      fi
+  fi
+}
