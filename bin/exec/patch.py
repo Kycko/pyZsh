@@ -41,13 +41,14 @@ class Globals():  # глобальные (для этого скрипта) пе
       '_pre':[S.cmdsAvailable],'_post':[],
       'func':None,'cmd':None,
       '::a' :{
-        '_pre':[],'_post':[],
-        'abbr':f"a [{SF.hlFirst('apply','blu')}]",
-        'zsh' : 'a',
-        'sep' : ':',
-        'desc':f'применить патч к {curDir} каталогу',
-        'help': False,
-        'cmd' :[G.sysBins['patch'],'-p1','-i']
+        '_pre' :[],'_post':[],
+        'abbr' :f"a [{SF.hlFirst('apply','blu')}]",
+        'zsh'  : 'a',
+        'sep'  : ':',
+        'desc' :f'применить патч к {curDir} каталогу',
+        'help' : False,
+        'cmd'  :[G.sysBins['patch'],'-p1','-i'],
+        'zSugg':'___patch'
         },
       '::c' :{
         '_pre':[],'_post':[],
