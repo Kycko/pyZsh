@@ -12,6 +12,11 @@ _pzBridge() {
     final=(${(f)"$(${cmdName} --zsh-data "${words[CURRENT]}" 2>/dev/null)"})
 
     # 4. Отображаем полученные от Python варианты
-    compadd -a final
+    if (( ${#final} > 0 )); then
+      # Если в строках есть пробелы вокруг двоеточия, Zsh может спотыкаться.
+      # Чтобы подставлялось 'search', а не 'search file', мы говорим _describe,
+      # что перед нами список команд, и он сам сделает красивую колонку описаний.
+      _describe -t commands "варианты ${cmdName}" final
+    fi
   fi
 }
