@@ -35,7 +35,7 @@ def checkBTRFS():
   vfs = statvfs('/')
   # если inodes равны 0 — это практически со 100% вероятностью BTRFS
   return vfs.f_files == 0 and vfs.f_ffree == 0
-def binAlias(dir,onBTRFS:bool,distType:str):
+def binAlias(dir,onBTRFS:bool,distType:str,initfile):
   # dir и initfile = объекты Path
   db = {}
   for f in dir.glob('*.py'):
@@ -45,7 +45,7 @@ def binAlias(dir,onBTRFS:bool,distType:str):
       # импорт ins.py перезаписывает значения скрипта rem.py
       # поэтому отделяем данные при помощи deepcopy()
       db[f.stem] = deepcopy(props)
-      db[f.stem]['file'] = f
+      db[f.stem]['launch'] = f'python3 {initfile} {f.name} "$@"'
   return db
 
 # защита от запуска модуля

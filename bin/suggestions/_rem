@@ -1,15 +1,16 @@
 #compdef rem
 
 _rem() {
-  if [[ "${_pzIsArch}" == "True" ]]; then
-    # Быстро и безопасно собираем все локально установленные пакеты в массив
+  if [[ "${_pzGlobals[isArch]}" == "True" ]]; then
+    # быстро и безопасно собираем все локально установленные пакеты в массив
     local -a installed_pkgs
     installed_pkgs=(${(f)"$(pacman -Qq 2>/dev/null)"})
-    
-    # Скармливаем массив Zsh
+
+    # скармливаем массив Zsh
     compadd -a installed_pkgs
   else
-    # На Fedora оставляем стандартный нативный DNF
-    _dnf remove
+    local -a dnf_installed
+    dnf_installed=(${(f)"$(rpm -qa --qf "%{NAME}\n" 2>/dev/null)"})
+    compadd -a dnf_installed
   fi
 }

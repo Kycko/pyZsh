@@ -8,11 +8,7 @@ import zshconf.globals as G
 # мои скрипты выдаём в виде функций, а не алиасов
 # иначе не будут работать автодополнения
 for name,props in G.myBins.items():
-  init = G.files['binInit']
-  file = props['file'].name
-  print(name + '() {')
-  print(f'python3 {init} {file} "$@"')
-  print('}')
+  print(name + '() { ' + props['launch'] + ' }')
 
 
 ############# экспортируем глобальные переменные для автодополнений

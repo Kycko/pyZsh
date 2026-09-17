@@ -145,7 +145,10 @@ aliases = {
 for al in ['mount','umount','visudo']: aliases[al] = IF.sudo(isRoot) + al
 if not isArch: aliases['cdBuildCloud'] = f"cd {dirs['work']['cloud']}"
 
-myBins = IF.binAlias(dirs['repos']['pyZsh']['exec'],onBTRFS,distType)
+myBins = IF.binAlias(dirs['repos']['pyZsh']['exec'],
+                     onBTRFS,
+                     distType,
+                     files['binInit'])
 
 # экспорты = то что в .zshrc прописывается как 'export EDITOR=nano'
 exports = {'EDITOR'        :'nano',

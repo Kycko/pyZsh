@@ -31,7 +31,7 @@ def _updCache(timeout:int,task:str):
       return fresh
     except: return True
   # 'ty' важен, чтобы не ждать завершения
-  if _check(): print(f"{G.aliases['updCache']} {task} ty &!")
+  if _check(): print(f"{G.myBins['updCache']['launch']} {task} ty &!")
 
 _export(G.exports,'export')
 _export(G.aliases,'alias')
