@@ -66,7 +66,9 @@ for bin in ['btrfs','meld','patch']: sysBins[bin] = which(bin)
 baseMail = 'ant.samarcev@gmail.com'
 # mail = почта, прочитанная из файла
 if isArch: gitMails = {str(dirs['repos']['local']['aurSrc']):mail}
-else     : gitMails = {str(dirs['work']['cloud'])           :mail}
+else:
+  gitMails = {str(dirs['work']['cloud'])                   :mail,
+              str(dirs['repos']['local']['root']/'sme-cli'):mail}
 
 zshFlag = '--zsh-data'
 # (task key) = с чего должен начинаться подпункт в Globals() скриптов
