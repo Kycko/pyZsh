@@ -15,7 +15,8 @@ dirs = {'home':Path('/home/kycko')}
 # репозитории
 dirs['repos'] = {'local':{'root':dirs['home']/'data/repos'}}
 dirs['repos']['pyZsh'] = {'root' :dirs['repos']['local']['root']/'pyZsh'}
-dirs['repos']['pyZsh']['exec']  = dirs['repos']['pyZsh']['root']/'bin/exec'
+dirs['repos']['pyZsh']['exec']    = dirs['repos']['pyZsh']['root']/'bin/exec'
+dirs['repos']['pyZsh']['zshSugg'] = dirs['repos']['pyZsh']['root']/'bin/suggestions'
 # рабочие
 dirs['work'] = {'cloud':dirs['home']/'data/cloud/build'}
 # промпт
@@ -144,12 +145,7 @@ aliases = {
 for al in ['mount','umount','visudo']: aliases[al] = IF.sudo(isRoot) + al
 if not isArch: aliases['cdBuildCloud'] = f"cd {dirs['work']['cloud']}"
 
-myBins = IF.binAlias(dirs['repos']['pyZsh']['exec'],
-                     onBTRFS,
-                     distType,
-                     sysBins['python3'],
-                     files  ['binInit'],
-                     aliases) # aliases обновляется внутри
+myBins = IF.binAlias(dirs['repos']['pyZsh']['exec'],onBTRFS,distType)
 
 # экспорты = то что в .zshrc прописывается как 'export EDITOR=nano'
 exports = {'EDITOR'        :'nano',

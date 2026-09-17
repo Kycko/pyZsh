@@ -3,6 +3,10 @@
 from   sys import exit as SYSEXIT
 import zshconf.globals as G
 
+############### мои автодополнения, ОБЯЗАТЕЛЬНО ДО COMPINIT'А!
+sDir = G.dirs['repos']['pyZsh']['zshSugg']
+if sDir.is_dir(): print(f'fpath=({sDir} $fpath)')
+
 print('autoload -Uz compinit; compinit')
 
 ############### история команд

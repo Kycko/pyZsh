@@ -69,7 +69,7 @@ zstyle ':vcs_info:*' actionformats '%b%m'
 zstyle ':vcs_info:*' formats       '%b%m'
 zstyle ':vcs_info:git*+set-message:*' hooks git-aheadbehind
 # ↓ важно, иначе запускается алиас
-zstyle ':vcs_info:git:*' command git
+zstyle ':vcs_info:git:*' command /usr/bin/git
 
 # Регистрируем хук precmd в Zsh
 autoload -Uz add-zsh-hook
