@@ -12,12 +12,7 @@ SG.tasks = {
   }
 
 class Help(O.Help):
-  def printZSH(self):
-    cmd = ['pacman','-Qq'] if G.isArch else ['rpm','-qa','--qf','%{NAME}\n']
-    try   : final = RF.run(cmd,'t')
-    except: final = []
-
-    for line in final: print(line)
+  def printZSH(self): self.zshPackages(True)
 
 # защита от запуска модуля
 if __name__ == '__main__':

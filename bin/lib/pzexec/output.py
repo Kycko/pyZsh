@@ -2,7 +2,9 @@
 
 # НЕ МЕНЯТЬ ПОРЯДОК во избежание частичных импортов
 from   sys import exit    as SYSEXIT
+import pzexec.fileFuncs   as FF
 import pzexec.globals     as G
+import pzexec.runFuncs    as RF
 import pzexec.strings     as S
 import pzexec.stringFuncs as SF
 import pzexec.listFuncs   as LF
@@ -29,13 +31,13 @@ class Help():
       return not self.debug # 'return True' подавляет ошибку
 
   # вывод основной справки и дополнений zsh
-  def getTask  (self):
+  def getTask    (self):
     cur = self.db
     try:
       for arg in self.args: cur = cur[G.tk + arg]
     except: pass
     return cur
-  def printMain(self):
+  def printMain  (self):
     # в Globals() обозначаем:
     #   аргументы-подпункты должны начинаться с G.tk (например, '::revert')
     #   сообщения перед/после списка: '_pre':[]/'_post':[]
@@ -57,7 +59,7 @@ class Help():
     for  tKey,tData in db.items():
       if tKey.startswith(G.tk): print(_getLine(tData,leftLen))
     for line in db['_post']: print(line)
-  def printZSH (self):
+  def printZSH   (self):
     printed = False
     db = self.getTask()
     for  k,d in db.items():
@@ -65,6 +67,32 @@ class Help():
         printed = True
         print(f"{d['zsh']}:{d['desc']}")
     if not printed and 'zSugg' in db.keys(): print(db['zSugg'])
+  def zshPackages(self,local:bool):
+    def _local():
+      if G.isArch: cmd = ['pacman','-Qq']
+      else       : cmd = ['rpm','-qa','--qf','%{NAME}\n']
+
+      try   : final = RF.run(cmd,'t')
+      except: final = []
+
+      return final
+    def _repos():
+      file = G.files['cache']['pkglist']
+
+      if file.is_file(): final = FF.readFile(file)
+      # фоллбэк на случай отсутствия файла кеша
+      elif G.isArch: final = RF.run(['pacman','-Slq'],'t')
+      else:
+        final = []
+        for  pkg in PKG.DNF().api.sack.query().available().latest():
+          if pkg.arch in ('x86_64','noarch') and pkg.name not in final:
+            final.append(pkg.name)
+      return final
+
+    # функция печатает пакеты для дополнения zsh
+    # local = установленные либо все из репозиториев
+    final = _local() if local else _repos()
+    for line in final: print(line)
 
 # отрисовка текущего действия и статуса (OK/FAILED)
 class Progress():

@@ -14,19 +14,7 @@ SG.tasks = {
   }
 
 class Help(O.Help):
-  def printZSH(self):
-    file = G.files['cache']['pkglist']
-
-    if file.is_file(): final = FF.readFile(file)
-    # фоллбэк на случай отсутствия файла кеша
-    elif G.isArch: final = RF.run(['pacman','-Slq'],'t')
-    else:
-      final = []
-      for  pkg in PKG.DNF().api.sack.query().available().latest():
-        if pkg.arch in ('x86_64','noarch') and pkg.name not in final:
-          final.append(pkg.name)
-
-    for line in final: print(line)
+  def printZSH(self): self.zshPackages(False)
 
 # защита от запуска модуля
 if __name__ == '__main__':
