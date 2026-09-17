@@ -41,7 +41,10 @@ class Globals():  # глобальные (для этого скрипта) пе
       }
 SG  = Globals()   # SG = script globals; надо здесь, иначе ошибка :/
 
-class Help(O.Help): pass  # здесь стандартный
+class Help(O.Help):
+  def printZSH(self):
+    if self.args and self.args[0] == '-f': print('___path')
+    else: super().zshPackages(False)
 progress = O.Progress()
 
 # защита от запуска модуля
