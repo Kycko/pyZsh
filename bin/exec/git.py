@@ -23,13 +23,59 @@ def main(args:list):
     else           : RF.raiseError()
 def run (args:list):
   def _mail():
+    def _input():
+      def _askMail():
+        mails = list(G.mails.values())
+        for i,mail in enumerate(mails,start=1):
+          print(f'{str(i).rjust(2)} : {mail}')
+        print('99 : ввести другой вариант')
+
+        num = ''
+        while not num.isdigit():
+          msg = 'Выберите почту для этого репозитория: '
+          num = input(SF.color(msg,'grn',True))
+        num = int(num)
+        if num == 99:
+          mail = ''
+          while '@' not in mail: mail = input('Введите почту: ')
+        else: mail = mails[num-1]
+
+        return mail
+      print(SF.color('Этот путь не найден в кеше','red',True))
+      print()
+      mail = _askMail()
+      print()
+      print(f'Текущий каталог: {cur}')
+      nPath = ''
+      while not nPath:
+        nPath = input('Введите общий каталог для этой почты: ')
+      FF.write_toFile(f'{nPath} {mail}',SG.mailFile,True)
+
+      print()
+      print(SF.color('Кеш почты обновлён:','grn',True))
+      print(f'  Каталог : {nPath}')
+      print(f'  Почта   : {mail}')
+      print(S.separator)
+      print()
+      return mail
+    # наверное, на всякий случай лучше перечитывать файл при каждом запуске
     cur = Path().resolve()
-    for cPath,mail in G.gitMails.items():
-      if commonpath([str(cur),cPath]) == cPath: return mail
-    return G.baseMail
-  RF.run([G.sysBins['git'],
-         '-c', 'user.name=Anton Samartsev',
-         '-c',f'user.email={_mail()}'] + args)
+    if SG.mailFile.is_file():
+      try:
+        for line in FF.readFile(SG.mailFile):
+          cPath,mail = line.split()
+          if commonpath([str(cur),cPath]) == cPath: return mail
+      except:
+        print(SG.errMail)
+        print(SF.color('Операция не выполнена','red',True))
+        SYSEXIT()
+    return _input()
+  if args[0] == 'commit':
+    credentials = ['-c', 'user.name=Anton Samartsev',
+                   '-c',f'user.email={_mail()}']
+  else: credentials = []
+
+  RF.run([G.sysBins['git']] + credentials + args)
 
 def back  (args:list):
   # успешное выполнение возвращает 0
@@ -103,6 +149,10 @@ class Globals():  # глобальные (для этого скрипта) пе
                  'zSugg':  False}
 
     self.repoBranches = 'Ветки в текущем репозитории:'
+
+    self.mailFile = G.files['cache']['gitmail']
+    self.errMail  = f'Файл {self.mailFile} найден, но повреждён'
+    self.errMail  = SF.color(self.errMail,'red',True)
 
     self.fStrings = {'skip':SF.color('уже существует','red',True),
                      'new' :SF.color('создан'        ,'grn',True),

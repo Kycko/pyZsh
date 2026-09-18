@@ -121,8 +121,20 @@ inVirt = not files['ssh']['hosts'].is_file()
 
 onBTRFS = IF.checkBTRFS()
 
+############# кеш
+dirs['cache'] = {'root':dirs['home']/'data/cache'}
+if isArch: dirs['cache']['pkg'] = dirs['cache']['root']/ 'pkg'
+else     : dirs['cache']['pkg'] = dirs['cache']['root']/f'dnf/RO{distro}'
+
 # почта нужна только для скриптов, но там будут сложности импорта
-mail = IF.readMail(files['mail'][distType])
+mails = {'read':IF.readMail(files['mail'][distType])}
+
+# хотел перенести pkglist в pzexec.globals, но там проблема чтения dirs['cache']
+files['cache'] = {'gitmail':dirs['cache']['root']/'gitMail.txt',
+                  'pkglist':dirs['cache']['pkg']/'packages.txt',
+                  # в таком формате updTime удобнее для кода
+                  'updTime':{'pkg'  :dirs['cache']['pkg'] /'updTime.txt',
+                             'pyZsh':dirs['cache']['root']/'pyZsh.txt'}}
 
 ########### модули/плагины
 try   : sources_toLoad = files['plugins'][distro]
@@ -166,17 +178,6 @@ exports = {'EDITOR'        :'nano',
            'HISTFILE'      :'${HOME}/.zshHistory',
            # ↓ чтобы работало удаление в корзину в VS Code
            'ELECTRON_TRASH':'kioclient'}
-
-############# кеш
-dirs['cache'] = {'root':dirs['home']/'data/cache'}
-if isArch: dirs['cache']['pkg'] = dirs['cache']['root']/ 'pkg'
-else     : dirs['cache']['pkg'] = dirs['cache']['root']/f'dnf/RO{distro}'
-
-# хотел перенести pkglist в pzexec.globals, но там проблема чтения dirs['cache']
-files['cache'] = {'pkglist':dirs['cache']['pkg']/'packages.txt',
-                  # в таком формате updTime удобнее для кода
-                  'updTime':{'pkg'  :dirs['cache']['pkg'] /'updTime.txt',
-                             'pyZsh':dirs['cache']['root']/'pyZsh.txt'}}
 
 ############# прочее
 termSymbols = '╭╰>' if guiterm else '┌└>'

@@ -37,7 +37,7 @@ def main(args:list):
       setlocale(LC_TIME,'en_US.UTF-8')
       date = datetime.now().strftime('%a %b %d %Y')
 
-      print(f'{start}{date} Anton Samartsev <{G.mail}> - 0:')
+      print(f"{start}{date} Anton Samartsev <{G.mails['read']}> - 0:")
 
   task,fArgs = GF.getTask(args,SG.tasks)
   _mod(task,fArgs)

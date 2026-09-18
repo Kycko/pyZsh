@@ -63,12 +63,7 @@ colors['term'] = {'blk':'\033[30m', # black
 for bin in ['btrfs','meld','patch']: sysBins[bin] = which(bin)
 
 ############## прочее
-baseMail = 'ant.samarcev@gmail.com'
-# mail = почта, прочитанная из файла
-if isArch: gitMails = {str(dirs['repos']['local']['aurSrc']):mail}
-else:
-  gitMails = {str(dirs['work']['cloud'])                   :mail,
-              str(dirs['repos']['local']['root']/'sme-cli'):mail}
+mails['base'] = 'ant.samarcev@gmail.com'
 
 zshFlag = '--zsh-data'
 # (task key) = с чего должен начинаться подпункт в Globals() скриптов
