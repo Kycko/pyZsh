@@ -5,6 +5,7 @@ import zshconf.globals as G
 
 ############### функции
 def _updHotkeys():
+  # ПОСМОТРЕТЬ КОД: showkey -a
   home = '^[[H' if G.guiterm else '^[[1~'
   end  = '^[[F' if G.guiterm else '^[[4~'
   if G.guiterm: ctrlDel = '^[[3;5~'
