@@ -7,7 +7,10 @@ import zshconf.globals as G
 sDir = G.dirs['repos']['pyZsh']['zshSugg']
 if sDir.is_dir(): print(f'fpath=({sDir} $fpath)')
 
-print('autoload -Uz compinit; compinit')
+cinit = 'autoload -Uz compinit; compinit'
+# у root'а есть проблема с проверкой прав родительских каталогов
+if G.isRoot: cinit += ' -i'
+print(cinit)
 
 ############### история команд
 print('setopt INC_APPEND_HISTORY')
