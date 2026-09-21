@@ -23,7 +23,7 @@ def main(args:list):
     else           : RF.raiseError()
 def run (args:list):
   def _mail():
-    def _input():
+    def _input(curdir:str):
       def _askMail():
         mails = list(G.mails.values())
         for i,mail in enumerate(mails,start=1):
@@ -41,17 +41,19 @@ def run (args:list):
         else: mail = mails[num-1]
 
         return mail
-      print(SF.color('Этот путь не найден в кеше','red',True))
+      print(SF.color(' Этот путь не найден в кеше!','red',True))
+      print(f' {SG.dirstr}: {curdir}')
+      print(f' {S.separator}')
       print()
       mail = _askMail()
       print()
-      print(f'Текущий каталог: {cur}')
       nPath = ''
       while not nPath:
         nPath = input('Введите общий каталог для этой почты: ')
       FF.write_toFile(f'{nPath} {mail}',SG.mailFile,True)
 
       print()
+      print(S.separator)
       print(SF.color('Кеш почты обновлён:','grn',True))
       print(f'  Каталог : {nPath}')
       print(f'  Почта   : {mail}')
@@ -69,7 +71,7 @@ def run (args:list):
         print(SG.errMail)
         print(SF.color('Операция не выполнена','red',True))
         SYSEXIT()
-    return _input()
+    return _input(str(cur))
   if args[0] == 'commit':
     credentials = ['-c', 'user.name=Anton Samartsev',
                    '-c',f'user.email={_mail()}']
@@ -153,6 +155,7 @@ class Globals():  # глобальные (для этого скрипта) пе
     self.mailFile = G.files['cache']['gitmail']
     self.errMail  = f'Файл {self.mailFile} найден, но повреждён'
     self.errMail  = SF.color(self.errMail,'red',True)
+    self.dirstr   = SF.color('Текущий каталог','cya',True)
 
     self.fStrings = {'skip':SF.color('уже существует','red',True),
                      'new' :SF.color('создан'        ,'grn',True),
