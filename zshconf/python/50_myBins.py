@@ -9,7 +9,11 @@ import zshconf.globals as G
 # иначе не будут работать автодополнения
 
 # один раз объявляем автозагрузку моста
+# сначала я задавал fpath в 10_basicLoads.py, но были ошибки у root'а
+sDir = G.dirs['repos']['pyZsh']['zshSugg']
+if sDir.is_dir(): print(f'fpath=({sDir} $fpath)')
 print('autoload -Uz _pzBridge;')
+
 for name,props in G.myBins.items():
   # регистрируем функцию
   print(name + '() { ' + props['launch'] + ' }')

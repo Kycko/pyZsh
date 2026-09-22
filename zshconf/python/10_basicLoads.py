@@ -4,13 +4,7 @@ from   sys import exit as SYSEXIT
 import zshconf.globals as G
 
 ############### мои автодополнения, ОБЯЗАТЕЛЬНО ДО COMPINIT'А!
-sDir = G.dirs['repos']['pyZsh']['zshSugg']
-if sDir.is_dir(): print(f'fpath=({sDir} $fpath)')
-
-cinit = 'autoload -Uz compinit; compinit'
-# у root'а есть проблема с проверкой прав родительских каталогов
-if G.isRoot: cinit += ' -i'
-print(cinit)
+print('autoload -Uz compinit; compinit')
 
 ############### история команд
 print('setopt INC_APPEND_HISTORY')
