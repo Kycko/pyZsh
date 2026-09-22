@@ -160,6 +160,8 @@ aliases = {
   'rg'  :'rg -i',
   'sctl':'systemctl'
   }
+if inVirt:  # в основных ОС это работает без sudo, а в виртуалке нет
+  for cmd in ['poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
 
 for al in ['mount','umount','visudo']: aliases[al] = IF.sudo(isRoot) + al
 if not isArch: aliases['cdBuildCloud'] = f"cd {dirs['work']['cloud']}"
