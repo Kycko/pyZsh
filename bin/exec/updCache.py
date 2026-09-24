@@ -106,11 +106,11 @@ class Globals():  # глобальные (для этого скрипта) пе
     def _abbr      (txt   :str): return SF.color(txt,'cya',True)
     def _statusDesc(dnfstr:str,pyZshstr:str):
       pre   = 'посмотреть статус'
-      dnf   = 'dnf'   in self.caches
+      pkg   = 'pkg'   in self.caches
       pyZsh = 'pyZsh' in self.caches
 
-      if   dnf and pyZsh: return f'{pre} кешей {dnfstr} и {pyZshstr}'
-      elif dnf          : return f'{pre} кеша {dnfstr}'
+      if   pkg and pyZsh: return f'{pre} кешей {dnfstr} и {pyZshstr}'
+      elif pkg          : return f'{pre} кеша {dnfstr}'
       elif pyZsh        : return f'{pre} кеша {pyZshstr}'
       else              : return ''
 
