@@ -427,6 +427,10 @@ class Globals():  # глобальные (для этого скрипта) пе
       'could not find',
       'could not link test program',
       'dependencies are missing:',
+      # отдельно error НЕ ДОБАВЛЯТЬ, в логах бывают строки типа:
+      #   Start of error tests
+      #   cp -pr docs/api docs/error-kinds.go ...
+      ':error',
       'error:',
       'fatal error',
       'no job control',
