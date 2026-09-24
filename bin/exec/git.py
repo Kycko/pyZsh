@@ -106,6 +106,7 @@ def diff  (args:list):
   except KeyboardInterrupt: pass
 def files (args:list):
   def _partial(gitignoreAdd:list,file:str,lines:list):
+    file = Path(file)
     init = FF.readFile(file)
     for line in lines:
       if not LF.inclStr(init,line,lower=False):
