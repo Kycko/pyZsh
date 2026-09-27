@@ -21,7 +21,7 @@ def main(args:list):
     except KeyboardInterrupt: print(S.userCancel)
 
 def fork (args:list):
-  def _run(task:str): pkg() if task == 'pkg' else pyZsh()
+  def _run(task:str): pkg(args) if task == 'pkg' else pyZsh(args)
   task = args.pop(0)
   # ↓ добавить ЛЮБОЙ аргумент, чтобы запустить отдельным процессом
   if args:
@@ -40,24 +40,28 @@ def write(file,status:bool=None): # file = объект Path
   final = str(int(time()))
   if status is not None: final += f' {status}'
   FF.write_toFile(final,file)
-def pkg  ():
+def pkg  (args:list):
+  base = None # иначе base не будет доступна после первого условия
+  pkgs = None
+  if not G.isArch: base = PKG.DNF() # "прогреваем" кеш DNF
+  if args and args[0] == 'False': return  # завершаем
+
   os.makedirs(str(G.dirs['cache']['pkg']),exist_ok=True)
   cFiles = G.files['cache']
 
   if G.isArch: pkgs = RF.run(['yay','-Slq'],'t')
-  else:
-    base = PKG.DNF()  # "прогреваем" кеш DNF
-    if base.dbLoaded:
-      # получаем только уникальные имена доступных пакетов
-      pkgs = set(pkg.name for pkg in base.api.sack.query().available())
+  elif base.dbLoaded:
+    # получаем только уникальные имена доступных пакетов
+    pkgs = set(pkg.name for pkg in base.api.sack.query().available())
 
   if pkgs:  # на всякий случай, чтобы не перезаписывать пустотой
     pkgs = LF.rmBlanks(sorted(pkgs))
     FF.write_toFile(pkgs,cFiles['pkglist'])
     # записываем текущий timestamp
     write(cFiles['updTime']['pkg'])
-def pyZsh():  # проверяет наличие обновлений моего pyZsh
-  # проверка нужна, чтобы в виртуалках не запускалось
+def pyZsh(args:list):  # проверяет наличие обновлений моего pyZsh
+  # здесь args нужен ТОЛЬКО чтобы вызов функции был одинаковым с pkg
+  if args and args[0] == 'False': return  # завершаем
   os.makedirs(str(G.dirs['cache']['root']),exist_ok=True)
 
   preCMD = [G.sysBins['git'],'-C',str(G.dirs['repos']['pyZsh']['root'])]
