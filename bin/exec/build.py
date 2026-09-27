@@ -437,6 +437,7 @@ class Globals():  # глобальные (для этого скрипта) пе
       'no module named',
       'no such file or directory',
       'no theme named',
+      'PytestUnknownMarkWarning',
       # ↓ разбито на разные строки, но надо именно про g++
       'unable to','g++ in your PATH',
       'unrecognized options:',
