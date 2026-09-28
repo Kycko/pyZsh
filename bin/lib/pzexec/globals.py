@@ -39,6 +39,7 @@ gitFiles = {'ignore':{'file' : '.gitignore',
                                '*.tar.xz',
                                '*.tgz',
                                '*.rpm',
+                               '__pycache__',
                                '.directory']},
             'readme':{'file' : 'README.md'   ,
                       'lines':['[Стапель 8.0/7.3](ССЫЛКА)']}}
