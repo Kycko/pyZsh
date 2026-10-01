@@ -163,7 +163,8 @@ aliases = {
 if inVirt:  # в основных ОС это работает без sudo, а в виртуалке нет
   for cmd in ['poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
 
-for al in ['mount','umount','visudo']: aliases[al] = IF.sudo(isRoot) + al
+aliases.update(IF.sudoAliases(['mount','umount','visudo'],isRoot))
+
 if not isArch: aliases['cdBuildCloud'] = f"cd {dirs['work']['cloud']}"
 
 myBins = IF.binAlias(dirs['repos']['pyZsh']['exec'],

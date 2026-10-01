@@ -35,6 +35,15 @@ def checkBTRFS():
   vfs = statvfs('/')
   # если inodes равны 0 — это практически со 100% вероятностью BTRFS
   return vfs.f_files == 0 and vfs.f_ffree == 0
+
+# прочее
+def sudoAliases(aliases:list,isRoot:bool):
+  final = {}
+  for al in aliases:
+    prefix = sudo(isRoot)
+    if prefix: final[al] = prefix + al
+  return final
+
 def binAlias(dir,onBTRFS:bool,distType:str,initfile):
   # dir и initfile = объекты Path
   db = {}
