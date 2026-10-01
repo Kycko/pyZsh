@@ -164,6 +164,7 @@ if inVirt:  # в основных ОС это работает без sudo, а �
   for cmd in ['poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
 
 aliases.update(IF.sudoAliases(['mount','umount','visudo'],isRoot))
+if not isArch: aliases.update(IF.sudoAliases(['ausearch'],isRoot))
 
 if not isArch: aliases['cdBuildCloud'] = f"cd {dirs['work']['cloud']}"
 
