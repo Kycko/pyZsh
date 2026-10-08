@@ -10,7 +10,11 @@ import pzexec.strings     as S
 # определяем здесь, чтобы использовать в Globals()
 def main(args:list):
   def _ROcheckUpd():
-    count = len(LF.filterEnds(_run('check'),'updates',False))
+    pkgs  = _run('check')
+
+    count  = len(LF.filterEnds(pkgs,'updates',False))
+    count += len(LF.filterEnds(pkgs,'kde6'   ,False))
+
     color = ('blu','grn')[bool(count)]
     print('found.....',end='',flush=True)
     print(SF.color(str(count),color))
