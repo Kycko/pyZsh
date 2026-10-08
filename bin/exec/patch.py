@@ -9,12 +9,14 @@ import pzexec.strings     as S
 # основные функции
 # определяем здесь, чтобы использовать в Globals()
 def main(args:list):
-  db,fArgs = GF.getTask(args,SG.tasks)
-  if   args[0] == 'a':
-    if fArgs: RF.run(db['cmd'] + fArgs)
-    else    : print(SF.color('Добавьте путь к патчу','red',True))
-  elif args[0] == 'c': RF.run(db['cmd'],'h') ; print(SG.cMsg)
-  else               : RF.raiseError()
+  if G.inVirt: print(SG.virtMsg)
+  else:
+    db,fArgs = GF.getTask(args,SG.tasks)
+    if   args[0] == 'a':
+      if fArgs: RF.run(db['cmd'] + fArgs)
+      else    : print(SF.color('Добавьте путь к патчу','red',True))
+    elif args[0] == 'c': RF.run(db['cmd'],'h') ; print(SG.cMsg)
+    else               : RF.raiseError()
 
 # классы
 class Globals():  # глобальные (для этого скрипта) переменные
@@ -33,10 +35,12 @@ class Globals():  # глобальные (для этого скрипта) пе
     curDir     = SF.color('текущему'   ,'udl')
     patchName  = SF.color(newpatch.name,'cya',True)
     printedDir = str(workdir).replace('/home/kycko','~')
-    printedDir = SF.color(printedDir,'ylw')
-    created    = SF.color('создан'  ,'grn',True)
+    printedDir = SF.color(printedDir   ,'ylw')
+    created    = SF.color('создан'     ,'grn',True)
+    virt       = SF.color('в виртуалке','red',True)
 
-    self.cMsg  = f'Патч {patchName} {created} в каталоге {printedDir}'
+    self.cMsg    = f'Патч {patchName} {created} в каталоге {printedDir}'
+    self.virtMsg = f'Эта команда не работает {virt}'
 
     self.tasks = {
       '_pre':[S.cmdsAvailable],'_post':[],
