@@ -37,10 +37,10 @@ class Globals():  # глобальные (для этого скрипта) пе
     printedDir = str(workdir).replace('/home/kycko','~')
     printedDir = SF.color(printedDir   ,'ylw')
     created    = SF.color('создан'     ,'grn',True)
-    virt       = SF.color('в виртуалке','red',True)
+    virt       = SF.color('не в виртуалке','red',True)
 
     self.cMsg    = f'Патч {patchName} {created} в каталоге {printedDir}'
-    self.virtMsg = f'Эта команда не работает {virt}'
+    self.virtMsg = f'Эту команду надо запускать {virt}'
 
     self.tasks = {
       '_pre':[S.cmdsAvailable],'_post':[],
