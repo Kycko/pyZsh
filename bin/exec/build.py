@@ -440,6 +440,7 @@ class Globals():  # глобальные (для этого скрипта) пе
       'PytestUnknownMarkWarning',
       # ↓ разбито на разные строки, но надо именно про g++
       'unable to','g++ in your PATH',
+      'undefined reference',
       'unrecognized options:',
       'you probably have to install',
       'ошибка:'
