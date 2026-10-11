@@ -112,6 +112,7 @@ class PKGtemplate:
                _color(s['release'  ].ljust(leftLen))+' : '+self.release,
                _color(s['arch'     ].ljust(leftLen))+' : '+self.arch,
                _color(s['URL'      ].ljust(leftLen))+' : '+self.URL,
+               _color(s['license'  ].ljust(leftLen))+' : '+self.license,
                _color(s['buildtime'].ljust(leftLen))+' : '+self.buildtime,
                _color(s['summary'  ].ljust(leftLen))+' : '+self.summary,
                '',
@@ -130,6 +131,7 @@ class DNFpackage(PKGtemplate):
     self.release   = pkgObj.release
     self.arch      = pkgObj.arch
     self.URL       = '' if pkgObj.url is None else pkgObj.url
+    self.license   = pkgObj.license
     self.summary   = pkgObj.summary
     self.desc      = pkgObj.description
     self.buildtime = pkgObj.buildtime
@@ -185,6 +187,7 @@ class RPMpackage(PKGtemplate):
     self.release   = self.api[rpm.RPMTAG_RELEASE]
     self.arch      = self.api[rpm.RPMTAG_ARCH]
     self.URL       = '' if tempURL is None else tempURL
+    self.license   = self.api[rpm.RPMTAG_LICENSE]
     self.summary   = self.api[rpm.RPMTAG_SUMMARY]
     self.desc      = self.api[rpm.RPMTAG_DESCRIPTION]
     self.buildtime = self.api[rpm.RPMTAG_BUILDTIME]

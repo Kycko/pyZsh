@@ -46,6 +46,7 @@ pkginfo = {'name'     :'Имя',
            'release'  :'Релиз',
            'arch'     :'Архитектура',
            'URL'      :'URL',
+           'license'  :'Лицензия',
            'buildtime':'Дата сборки',
            'summary'  :'Summary',
            'desc'     :'Описание'}
