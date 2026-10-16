@@ -427,6 +427,7 @@ class Globals():  # глобальные (для этого скрипта) пе
       'could not find',
       'could not link test program',
       'dependencies are missing:',
+      '.desktop: warning:', # полезно видеть из вывода desktop-file-validate
       # отдельно error НЕ ДОБАВЛЯТЬ, в логах бывают строки типа:
       #   Start of error tests
       #   cp -pr docs/api docs/error-kinds.go ...
