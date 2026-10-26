@@ -161,6 +161,7 @@ aliases = {
   'sctl':'systemctl'
   }
 if inVirt:  # в основных ОС это работает без sudo, а в виртуалке нет
+  aliases['sctl'] = IF.sudo(isRoot) + aliases['sctl']
   for cmd in ['poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
 
 aliases.update(IF.sudoAliases(['mount','umount','visudo'],isRoot))
