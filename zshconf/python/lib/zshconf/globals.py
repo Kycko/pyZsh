@@ -162,7 +162,7 @@ aliases = {
   }
 if inVirt:  # в основных ОС это работает без sudo, а в виртуалке нет
   aliases['sctl'] = IF.sudo(isRoot) + aliases['sctl']
-  for cmd in ['poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
+  for cmd in ['audit2allow','poweroff','reboot']: aliases[cmd] = IF.sudo(isRoot) + cmd
 
 aliases.update(IF.sudoAliases(['mount','umount','visudo'],isRoot))
 if not isArch: aliases.update(IF.sudoAliases(['ausearch'],isRoot))
